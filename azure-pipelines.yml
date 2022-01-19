@@ -26,6 +26,10 @@ stages:
       inputs:
         version: '$(dotnetSdkVersion)'
 
+    - task: CmdLine@2
+      inputs:
+        script: 'ls'
+
     - task: Npm@1
       displayName: 'Run npm install'
       inputs:
