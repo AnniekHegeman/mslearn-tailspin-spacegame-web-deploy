@@ -26,9 +26,17 @@ stages:
       inputs:
         version: '$(dotnetSdkVersion)'
 
-    - task: Npm@1
-      displayName: 'Run npm install'
+    - task: Npm@1 
+      displayName: 'Clean npm cache'
       inputs:
+        command: 'custom'
+        customCommand: 'cache clean --force'
+        verbose: false
+    
+    - task: Npm@1
+      displayName: 'Npm install'
+      inputs:
+        command: 'install'
         verbose: false
 
     - script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
@@ -91,6 +99,6 @@ stages:
           - task: AzureWebApp@1
             displayName: 'Azure App Service Deploy: website'
             inputs:
-              azureSubscription: 'Resource Manager - Tailspin - Space Game'
-              appName: '$(WebAppName)'
+              azureSubscription: 'Resource Manager - Demos - Space Game'
+              appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
