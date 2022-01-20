@@ -26,15 +26,17 @@ stages:
       inputs:
         version: '$(dotnetSdkVersion)'
 
-    - task: CmdLine@2
-      inputs:
-        script: 'ls'
-
     - task: Npm@1 
-      displayName: 'Run npm install'
+      displayName: 'Clean npm cache'
       inputs:
         command: 'custom'
         customCommand: 'cache clean --force'
+        verbose: false
+    
+    - task: Npm@1
+      displayName: 'Npm install'
+      inputs:
+        command: 'install'
         verbose: false
 
     - script: './node_modules/.bin/node-sass $(wwwrootDir) --output $(wwwrootDir)'
